@@ -1,0 +1,32 @@
+{
+  "name": "@models-dev/api",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "dev": "PORT=${PORT:-3002} tsx src/main.ts",
+    "start": "tsx src/main.ts",
+    "test:e2e": "vitest run src/app.e2e.spec.ts"
+  },
+  "dependencies": {
+    "@models-dev/data": "workspace:*",
+    "@models-dev/shared": "workspace:*",
+    "@nestjs/common": "^11.1.28",
+    "@nestjs/core": "^11.1.28",
+    "@nestjs/platform-express": "^11.1.28",
+    "@nestjs/serve-static": "^5.0.5",
+    "@nestjs/swagger": "^11.4.6",
+    "@nestjs/throttler": "^6.5.0",
+    "compression": "^1.8.1",
+    "helmet": "^8.3.0",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.1.28",
+    "@types/compression": "^1.8.1",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.2.2"
+  }
+}

@@ -1,0 +1,13 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.*
+!.env.example
+!apps/web/.env.development
+data/merged/history/
+data/analytics/
+data/admin/
+apps/api/data/analytics/
+apps/api/data/admin/
+tmp/

@@ -1,0 +1,36 @@
+{
+  "fetchedAt": "2026-07-22T14:02:30.122Z",
+  "sourceStatus": {
+    "api": {
+      "url": "https://models.dev/api.json",
+      "status": "skipped",
+      "etag": "W/\"a0cb67f7ce74d398c2ca028c7bf75842\"",
+      "hash": "a0cb67f7ce74d398c2ca028c7bf75842b158745062e1d3f143ad2eee9c7cb584",
+      "bytes": 3219527,
+      "durationMs": 1034
+    },
+    "catalog": {
+      "url": "https://models.dev/catalog.json",
+      "status": "skipped",
+      "etag": "W/\"0ee54852487ed268e167dd57c1a3ea2e\"",
+      "hash": "0ee54852487ed268e167dd57c1a3ea2e83b28dc7bfb0f842508241293d996927",
+      "bytes": 3430910,
+      "durationMs": 317
+    },
+    "labs": {
+      "url": "https://models.dev/labs/",
+      "status": "skipped",
+      "hash": "b402f83c373662d52500a076ff99772badefb0c7eb47ee4c79f4ecd9a1407601",
+      "bytes": 451900,
+      "durationMs": 281
+    }
+  },
+  "conflicts": [],
+  "quarantine": [],
+  "version": "3f6f86194179",
+  "contentHash": "3f6f86194179d78e33598abd228d63708c40fbd8c22e2e5e686d6762302941d3",
+  "modelCount": 2902,
+  "labCount": 24,
+  "providerCount": 169,
+  "quarantineCount": 0
+}

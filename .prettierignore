@@ -1,0 +1,7 @@
+data/**
+node_modules/**
+apps/**/dist/**
+packages/**/dist/**
+coverage/**
+tmp/**
+.git/**

@@ -1,0 +1,32 @@
+services:
+  models-dev-explorer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: models-dev-explorer:local
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: "3000"
+      NODE_ENV: "production"
+      PUBLIC_SITE_URL: "http://localhost:3000"
+      REFRESH_TOKEN: "change-me"
+      ADMIN_USERNAME: "admin"
+      ADMIN_PASSWORD_HASH: "pbkdf2$$210000$$replace-salt$$replace-hash"
+      ADMIN_SESSION_SECRET: "change-me-admin-session-secret"
+      JWT_SECRET: "change-me-admin-session-secret"
+      REFRESH_INTERVAL_SECONDS: "21600"
+      CLIENT_DIST_PATH: "/app/apps/web/dist"
+      MODELS_DATASET_PATH: "/app/data/merged/models.json"
+      ANALYTICS_STATE_PATH: "/app/data/analytics/pageviews.json"
+    volumes:
+      - models_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3000/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  models_data:

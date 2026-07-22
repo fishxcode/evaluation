@@ -1,0 +1,16 @@
+{
+  "name": "@models-dev/data",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "data:refresh": "tsx src/cli.ts",
+    "test": "vitest run src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@models-dev/shared": "workspace:*"
+  }
+}

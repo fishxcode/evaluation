@@ -1,0 +1,34 @@
+{
+  "name": "models-dev-explorer",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.13.1",
+  "scripts": {
+    "build": "pnpm -r build",
+    "data:refresh": "pnpm --filter @models-dev/data data:refresh",
+    "dev": "pnpm --parallel --filter @models-dev/api dev --filter @models-dev/web dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\"",
+    "prepare": "husky",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": "eslint --fix",
+    "**/*.{js,mjs,cjs,json,md,yml,yaml,css}": "prettier --write"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
+    "eslint": "^10.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.1.1",
+    "playwright-core": "^1.61.1",
+    "prettier": "^3.9.6",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}
