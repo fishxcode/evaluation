@@ -4,7 +4,7 @@ import {
   Inject,
   Injectable,
 } from "@nestjs/common";
-import { AdminAuthService } from "./admin-auth.service";
+import { AdminAuthService } from "./admin-auth.service.js";
 
 export interface AdminRequest {
   adminUser?: string;

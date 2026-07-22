@@ -18,15 +18,15 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { refreshDataPipeline } from "@models-dev/data";
-import { AnalyticsService } from "./analytics.service";
-import { ApiUsageService } from "./api-usage.service";
-import { AdminAuthService } from "./admin-auth.service";
-import { AdminAuthGuard, type AdminRequest } from "./admin-auth.guard";
-import { AdminStore, type PipelineRun } from "./admin-store";
-import { DatasetService } from "./dataset.service";
-import { ApiEnvelopeResponse } from "./dto";
-import { ManualOverrideService } from "./manual-override.service";
-import { ok } from "./response";
+import { AnalyticsService } from "./analytics.service.js";
+import { ApiUsageService } from "./api-usage.service.js";
+import { AdminAuthService } from "./admin-auth.service.js";
+import { AdminAuthGuard, type AdminRequest } from "./admin-auth.guard.js";
+import { AdminStore, type PipelineRun } from "./admin-store.js";
+import { DatasetService } from "./dataset.service.js";
+import { ApiEnvelopeResponse } from "./dto.js";
+import { ManualOverrideService } from "./manual-override.service.js";
+import { ok } from "./response.js";
 
 function rootDir() {
   return fs.existsSync(path.resolve(process.cwd(), "pnpm-workspace.yaml"))

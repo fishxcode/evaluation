@@ -1,9 +1,95 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
   "installCommand": "corepack enable && pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter @models-dev/web build",
   "outputDirectory": "apps/web/dist",
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "data/merged/**"
+    }
+  },
   "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/analytics/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/admin/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/benchmarks",
+      "destination": "/api"
+    },
+    {
+      "source": "/filters",
+      "destination": "/api"
+    },
+    {
+      "source": "/labs",
+      "destination": "/api"
+    },
+    {
+      "source": "/labs/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/metadata",
+      "destination": "/api"
+    },
+    {
+      "source": "/models",
+      "destination": "/api"
+    },
+    {
+      "source": "/models/(.*)",
+      "destination": "/api"
+    },
+    {
+      "source": "/og-image.svg",
+      "destination": "/api"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/api"
+    },
+    {
+      "source": "/providers",
+      "destination": "/api"
+    },
+    {
+      "source": "/refresh",
+      "destination": "/api"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api"
+    },
+    {
+      "source": "/rss.xml",
+      "destination": "/api"
+    },
+    {
+      "source": "/search",
+      "destination": "/api"
+    },
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api"
+    },
+    {
+      "source": "/stats",
+      "destination": "/api"
+    },
+    {
+      "source": "/status",
+      "destination": "/api"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"

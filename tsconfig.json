@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.shared.json",
   "include": [
+    "api/**/*.ts",
     "packages/**/*.ts",
     "apps/**/*.ts",
     "apps/**/*.tsx",

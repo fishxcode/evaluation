@@ -359,7 +359,7 @@ export function mergeCatalogApiAndLabs(input: MergeInput): MergeResult {
       conflicts,
       quarantine,
     }),
-  });
+  }) as MergeResult;
 
   return dataset;
 }

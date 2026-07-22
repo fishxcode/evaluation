@@ -4,7 +4,7 @@
 
 本项目面向评测和自部署使用单环境部署。后续如需 staging/production，只需要复制 compose 配置并替换环境变量，不需要改业务代码。
 
-Vercel 部署支持 React 前端。API 仍作为独立 NestJS 服务部署，因为生产 API 负责数据刷新、Admin Console 写操作、analytics 持久化、Swagger、sitemap、RSS，以及基于本地 `data/` 状态的 SEO HTML 注入。
+Vercel 部署支持前端 + Function 的单体模式。根目录 `api/index.ts` 以 Vercel Function 方式运行 NestJS，`apps/web` 作为静态客户端构建。
 
 ## 准备
 
@@ -41,19 +41,14 @@ curl -I -H 'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8' http://localhost:${PORT:-3
 
 部署通过条件：`/status` 返回 `200`，Swagger UI 可通过 `/api/docs` 访问，`/` 能跳转到带语言前缀的应用路由。
 
-## Vercel 前端
+## Vercel
 
-根目录 `vercel.json` 会使用 pnpm 构建 `apps/web`，并把 `apps/web/dist` 作为 Vite SPA 发布。
-
-部署前在 Vercel 配置这个环境变量：
-
-- `VITE_API_BASE_URL`：已部署 NestJS API 的公网地址，例如 `https://api.example.com`。
+根目录 `vercel.json` 会构建 `apps/web`，同时把 `api/index.ts` 部署成后端 Function，并把应用路由和 API 路由重写到对应目标。
 
 从仓库根目录部署：
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm --filter @models-dev/web build
 vercel --prod
 ```
 
@@ -61,10 +56,11 @@ vercel --prod
 
 ```bash
 curl -I https://<your-vercel-domain>/
-curl https://<your-api-domain>/status
+curl https://<your-vercel-domain>/api/docs
+curl https://<your-vercel-domain>/status
 ```
 
-Vercel 部署不会替代 Docker/API 部署。需要 canonical、sitemap、RSS 和 Open Graph 元数据指向 Vercel 域名时，请在 API 侧把 `PUBLIC_SITE_URL` 设置为最终公开站点地址。
+Vercel 部署不会替代 Docker 部署。生产级数据持久化仍建议走 Docker/API。Vercel 上的 admin 和 analytics 写入只会回落到可写临时目录，不具备持久性。
 
 ## 日志
 

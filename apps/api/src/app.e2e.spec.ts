@@ -7,8 +7,8 @@ import { Test } from "@nestjs/testing";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import request from "supertest";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { AdminAuthService } from "./admin-auth.service";
-import { AppModule } from "./app.module";
+import { AdminAuthService } from "./admin-auth.service.js";
+import { AppModule } from "./app.module.js";
 
 describe("Models API", () => {
   let app: INestApplication;

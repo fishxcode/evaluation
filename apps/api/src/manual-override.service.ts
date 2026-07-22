@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import type { Model, NormalizedDataset } from "@models-dev/shared";
-import { AdminStore, type FieldOverride } from "./admin-store";
+import { AdminStore, type FieldOverride } from "./admin-store.js";
 
 const SUPPORTED_FIELDS = new Set([
   "description",

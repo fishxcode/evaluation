@@ -6,7 +6,7 @@ import {
   NestInterceptor,
 } from "@nestjs/common";
 import { Observable, tap } from "rxjs";
-import { ApiUsageService } from "./api-usage.service";
+import { ApiUsageService } from "./api-usage.service.js";
 
 function routeKey(request: {
   method?: string;

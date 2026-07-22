@@ -17,14 +17,14 @@ import {
 } from "@nestjs/swagger";
 import { refreshDataPipeline } from "@models-dev/data";
 import path from "node:path";
-import { AnalyticsService } from "./analytics.service";
-import { DatasetService } from "./dataset.service";
+import { AnalyticsService } from "./analytics.service.js";
+import { DatasetService } from "./dataset.service.js";
 import {
   ApiEnvelopeResponse,
   ModelListQueryDto,
   parseModelListQuery,
-} from "./dto";
-import { ok } from "./response";
+} from "./dto.js";
+import { ok } from "./response.js";
 
 function rootDir() {
   return path.resolve(process.cwd(), "../..");

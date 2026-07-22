@@ -14,6 +14,7 @@ export default [
   },
   {
     files: [
+      "api/**/*.ts",
       "apps/**/*.{ts,tsx}",
       "packages/**/*.{ts,tsx}",
       "scripts/**/*.{ts,tsx}",

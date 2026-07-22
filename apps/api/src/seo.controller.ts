@@ -1,7 +1,7 @@
 import { Controller, Get, Header, Inject } from "@nestjs/common";
 import { ApiExcludeEndpoint } from "@nestjs/swagger";
 import type { Model } from "@models-dev/shared";
-import { DatasetService } from "./dataset.service";
+import { DatasetService } from "./dataset.service.js";
 
 const LOCALES = ["en", "zh"] as const;
 

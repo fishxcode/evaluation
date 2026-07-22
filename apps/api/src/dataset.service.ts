@@ -13,7 +13,7 @@ import type {
   NormalizedDataset,
   Provider,
 } from "@models-dev/shared";
-import { ManualOverrideService } from "./manual-override.service";
+import { ManualOverrideService } from "./manual-override.service.js";
 
 type ListQuery = Partial<Omit<ModelListQuery, "page" | "pageSize">> & {
   page?: number | string;

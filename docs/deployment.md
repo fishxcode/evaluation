@@ -4,7 +4,7 @@
 
 This project uses one Docker environment for evaluation and self-hosting. Staging and production can later be split by copying the compose file and changing environment variables only.
 
-Vercel deployment is supported for the React frontend. The API remains a separate NestJS service because the production API owns data refreshes, Admin Console mutations, analytics persistence, Swagger, sitemap, RSS, and SEO HTML injection from local `data/` state.
+Vercel deployment is supported as a single frontend-plus-function app. The root `api/index.ts` file runs the NestJS app as a Vercel Function, while `apps/web` is built as the static client.
 
 ## Prepare
 
@@ -41,19 +41,14 @@ curl -I -H 'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8' http://localhost:${PORT:-3
 
 Passing deployment means `/status` returns `200`, Swagger UI is reachable at `/api/docs`, and `/` redirects to the language-prefixed app route.
 
-## Vercel Frontend
+## Vercel
 
-The root `vercel.json` builds `apps/web` with pnpm and serves `apps/web/dist` as a Vite SPA.
-
-Set this Vercel environment variable before deploying:
-
-- `VITE_API_BASE_URL`: public URL of the deployed NestJS API, for example `https://api.example.com`.
+The root `vercel.json` builds `apps/web`, deploys `api/index.ts` as the backend function, and rewrites application routes and API routes to the right target.
 
 Deploy from the repository root:
 
 ```bash
 pnpm install --frozen-lockfile
-pnpm --filter @models-dev/web build
 vercel --prod
 ```
 
@@ -61,10 +56,11 @@ Verification:
 
 ```bash
 curl -I https://<your-vercel-domain>/
-curl https://<your-api-domain>/status
+curl https://<your-vercel-domain>/api/docs
+curl https://<your-vercel-domain>/status
 ```
 
-The Vercel deployment does not replace the Docker/API deployment. Keep the API available and set `PUBLIC_SITE_URL` on the API to the final public site origin when canonical URLs, sitemap, RSS, and Open Graph metadata must point at the Vercel domain.
+The Vercel deployment does not replace the Docker deployment. For production data persistence, keep using the Docker/API deployment. On Vercel, admin and analytics writes fall back to writable temp storage only.
 
 ## Logs
 

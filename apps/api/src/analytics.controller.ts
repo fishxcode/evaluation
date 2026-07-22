@@ -1,8 +1,8 @@
 import { Body, Controller, Headers, Inject, Post, Req } from "@nestjs/common";
 import { ApiBody, ApiOperation, ApiTags } from "@nestjs/swagger";
-import { AnalyticsService } from "./analytics.service";
-import { ApiEnvelopeResponse } from "./dto";
-import { ok } from "./response";
+import { AnalyticsService } from "./analytics.service.js";
+import { ApiEnvelopeResponse } from "./dto.js";
+import { ok } from "./response.js";
 
 function firstHeader(value: string | string[] | undefined) {
   return Array.isArray(value) ? value[0] : value;

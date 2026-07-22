@@ -11,8 +11,8 @@ import {
 } from "@nestjs/common";
 import { ApiExcludeController } from "@nestjs/swagger";
 import type { Model } from "@models-dev/shared";
-import { findClientDist, readClientIndex } from "./client-dist";
-import { DatasetService } from "./dataset.service";
+import { findClientDist, readClientIndex } from "./client-dist.js";
+import { DatasetService } from "./dataset.service.js";
 
 interface SeoMeta {
   locale: "en" | "zh";

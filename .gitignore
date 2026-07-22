@@ -11,3 +11,4 @@ data/admin/
 apps/api/data/analytics/
 apps/api/data/admin/
 tmp/
+.vercel

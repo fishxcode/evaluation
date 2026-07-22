@@ -9,7 +9,7 @@
     "dev": "pnpm --parallel --filter @models-dev/api dev --filter @models-dev/web dev",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lint": "eslint \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\"",
+    "lint": "eslint \"api/**/*.ts\" \"apps/**/*.{ts,tsx}\" \"packages/**/*.{ts,tsx}\"",
     "prepare": "husky",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.json --noEmit"
