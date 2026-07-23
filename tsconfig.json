@@ -5,8 +5,8 @@
   },
   "include": [
     "packages/*/src/**/*.ts",
-    "apps/*/src/**/*.ts",
-    "apps/*/src/**/*.tsx"
+    "apps/api/src/**/*.ts"
   ],
-  "exclude": ["node_modules", "**/dist", "**/node_modules"]
+  "comment": "apps/web is typechecked by its own tsconfig (has vite/client types + JSX). Root typecheck covers backend + shared/data. / apps/web 由其自身 tsconfig 检查（含 vite 类型+JSX）；根 typecheck 覆盖后端与 shared/data。",
+  "exclude": ["node_modules", "**/dist", "**/node_modules", "**/*.test.ts", "**/test/**"]
 }

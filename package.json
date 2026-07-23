@@ -13,7 +13,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "data:refresh": "pnpm --filter @models-dev/data pipeline",
     "data:refresh:full": "pnpm --filter @models-dev/data pipeline:full",
-    "vercel-build": "pnpm --filter @models-dev/shared build && pnpm --filter @models-dev/data build && pnpm --filter @models-dev/api build && pnpm --filter @models-dev/data pipeline:full && pnpm --filter @models-dev/web build",
+    "vercel-build": "pnpm --filter @models-dev/shared build && pnpm --filter @models-dev/data build && pnpm --filter @models-dev/api build && node apps/api/esbuild.vercel.mjs && pnpm --filter @models-dev/data pipeline:full && pnpm --filter @models-dev/web build",
     "prepare": "husky"
   },
   "devDependencies": {
