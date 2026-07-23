@@ -3,7 +3,12 @@
 # 多阶段构建：构建全部 workspace，跑管线生成初始数据快照，单容器同时服务 API 与前端静态资源。
 
 # ---- Stage 1: build ----
-FROM node:20-slim AS builder
+# Pinned to node:22-bookworm-slim (matches CI Node 22). Uses the exact tag
+# already cached locally to avoid Docker Hub registry pulls when the network
+# blocks auth.docker.io / registry-1.docker.io.
+# 固定为 node:22-bookworm-slim（与 CI Node 22 一致）。使用本地已缓存的确切
+# 标签，避免网络封锁 Docker Hub 时再去拉取新镜像。
+FROM node:22-bookworm-slim AS builder
 WORKDIR /app
 RUN corepack enable
 COPY pnpm-workspace.yaml package.json pnpm-lock.yaml tsconfig.base.json tsconfig.json ./
@@ -21,7 +26,7 @@ RUN pnpm --filter @models-dev/shared build \
  && pnpm --filter @models-dev/data pipeline:full
 
 # ---- Stage 2: runtime ----
-FROM node:20-slim AS runtime
+FROM node:22-bookworm-slim AS runtime
 WORKDIR /app
 RUN corepack enable
 ENV NODE_ENV=production
@@ -30,7 +35,11 @@ COPY pnpm-workspace.yaml package.json pnpm-lock.yaml ./
 COPY packages/shared/package.json packages/shared/
 COPY packages/data/package.json packages/data/
 COPY apps/api/package.json apps/api/
-RUN pnpm install --frozen-lockfile --prod --filter @models-dev/api...
+# --ignore-scripts: skip root "prepare" (husky) — devDependency not installed
+# under --prod, and git hooks are irrelevant inside a container image anyway.
+# 跳过根 "prepare"（husky）——--prod 不装 devDependencies，且容器镜像内本就
+# 不需要 git hooks。
+RUN pnpm install --frozen-lockfile --prod --filter @models-dev/api... --ignore-scripts
 # Copy built artifacts + data snapshot + web static
 COPY --from=builder /app/packages/shared/dist packages/shared/dist
 COPY --from=builder /app/packages/data/dist packages/data/dist

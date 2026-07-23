@@ -2,6 +2,7 @@
   "name": "models-dev-explorer",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.13.1",
   "description": "Enterprise AI model directory platform — models.dev explorer",
   "scripts": {
     "dev": "pnpm --filter @models-dev/api dev & pnpm --filter @models-dev/web dev",
