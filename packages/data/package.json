@@ -1,0 +1,25 @@
+{
+  "name": "@models-dev/data",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "pipeline": "tsx src/cli.ts refresh",
+    "pipeline:full": "tsx src/cli.ts refresh --full",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@models-dev/shared": "workspace:*",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.0.0"
+  }
+}

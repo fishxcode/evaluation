@@ -41,8 +41,24 @@ export const pricingSchema = z.object({
   inputAudio: z.number().nonnegative().optional(),
   /** USD / 1M audio output tokens / 每百万音频输出 token 美元 */
   outputAudio: z.number().nonnegative().optional(),
-  /** Surcharge for context beyond 200k tokens / 超 200k 上下文加价 */
-  contextOver200k: z.number().nonnegative().optional(),
+  /**
+   * Surcharge for context beyond 200k tokens. In real data this is EITHER a
+   * flat number OR a nested {input,output,cache_read} pricing object — schema
+   * accepts both (铁律 2).
+   * 超 200k 上下文加价。真实数据中既可能是单个数字，也可能是嵌套的
+   * {input,output,cache_read} 定价对象——Schema 两者都接受。
+   */
+  contextOver200k: z
+    .union([
+      z.number().nonnegative(),
+      z.object({
+        input: z.number().optional(),
+        output: z.number().optional(),
+        cacheRead: z.number().optional(),
+        cacheWrite: z.number().optional(),
+      }),
+    ])
+    .optional(),
   /** Volume-tiered pricing / 阶梯定价 */
   tiers: z.array(priceTierSchema).optional(),
 });

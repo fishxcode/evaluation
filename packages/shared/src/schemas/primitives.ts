@@ -32,7 +32,7 @@ export type ReasoningOptionType = z.infer<typeof reasoningOptionTypeSchema>;
 export const reasoningOptionSchema = z.object({
   /** Control type / 控制类型 */
   type: reasoningOptionTypeSchema,
-  /** Allowed values when type=effort / effort 档位可选值 */
+  /** Allowed values when type=effort; source may include nulls (filtered) / effort 档位可选值（来源含 null，已过滤） */
   values: z.array(z.string()).optional(),
 });
 export type ReasoningOption = z.infer<typeof reasoningOptionSchema>;
@@ -54,8 +54,8 @@ export type Modalities = z.infer<typeof modalitiesSchema>;
 export const limitSchema = z.object({
   /** Total context window in tokens / 上下文窗口（token） */
   context: z.number().nonnegative(),
-  /** Max output tokens / 最大输出 token */
-  output: z.number().nonnegative(),
+  /** Max output tokens (optional — absent for a few offerings) / 最大输出 token（少数缺失） */
+  output: z.number().nonnegative().optional(),
   /** Max input tokens (optional) / 最大输入 token（可选） */
   input: z.number().nonnegative().optional(),
 });
@@ -66,7 +66,10 @@ export type Limit = z.infer<typeof limitSchema>;
  * source fidelity; not coerced to Date to avoid timezone drift.
  * ISO 8601 日期字符串。保留字符串以忠实来源，不强转 Date 避免时区漂移。
  */
+// Real data uses both YYYY-MM (knowledge cutoffs) and YYYY-MM-DD (release dates),
+// optionally with a time component. Regex accepts all observed forms.
+// 真实数据同时使用 YYYY-MM（知识截止）与 YYYY-MM-DD（发布日期），可带时间部分。
 export const isoDateSchema = z
   .string()
-  .regex(/^\d{4}-\d{2}-\d{2}([T ].*)?$/, 'must be ISO 8601 date');
+  .regex(/^\d{4}-\d{2}(-\d{2})?([T ].*)?$/, 'must be ISO 8601 date (YYYY-MM or YYYY-MM-DD)');
 export type IsoDate = z.infer<typeof isoDateSchema>;
