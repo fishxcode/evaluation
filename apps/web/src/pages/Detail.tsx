@@ -11,6 +11,7 @@ import { api } from '../lib/api.js';
 import { useT, useLang } from '../i18n/index.js';
 import { SkeletonGrid, ErrorState } from '../components/States.js';
 import { useCompare } from '../lib/compare.js';
+import { useMeta } from '../lib/meta.js';
 
 const dash = '—';
 const v = <T,>(x: T | undefined | null): T | string => (x === undefined || x === null || x === '' ? dash : x);
@@ -25,6 +26,12 @@ export function DetailPage() {
   const { data: model, isLoading, error, refetch } = useQuery({
     queryKey: ['model', id],
     queryFn: () => api.model(id),
+  });
+
+  useMeta({
+    title: model ? `${model.name} — ${model.lab.name}` : id,
+    description: model?.description,
+    type: 'article',
   });
 
   const [showRaw, setShowRaw] = useState(false);

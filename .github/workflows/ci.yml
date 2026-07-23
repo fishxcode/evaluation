@@ -3,10 +3,15 @@
 # CI——push/PR 触发：安装→lint→类型检查→单测→e2e→Docker 构建校验。任一失败即失败。
 name: CI
 
+# Only trigger on this eval branch (per 评测铁律: work stays on the model's own
+# branch, main is not built). Avoids failing builds on the code-less main branch.
+# 仅在本评测分支触发（按评测铁律：工作只在模型自己的分支，不构建 main），
+# 避免在无代码的 main 分支上失败。
 on:
   push:
-    branches: ['**']
+    branches: ['claude-opus-4-8']
   pull_request:
+    branches: ['claude-opus-4-8']
 
 jobs:
   build-and-test:

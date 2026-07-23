@@ -9,6 +9,7 @@ import { api } from '../lib/api.js';
 import { useT, useLang } from '../i18n/index.js';
 import { SkeletonGrid, EmptyState, ErrorState } from '../components/States.js';
 import { ModelCard } from '../components/ModelCard.js';
+import { useMeta } from '../lib/meta.js';
 
 export interface ExplorerSearch {
   page?: number;
@@ -27,6 +28,8 @@ export function ExplorerPage() {
   const lang = useLang();
   const search = useSearch({ from: `/${lang}/models` as never }) as ExplorerSearch;
   const navigate = useNavigate();
+
+  useMeta({ title: t('explorer.title') });
 
   const page = search.page ?? 1;
   const pageSize = search.pageSize ?? 20;

@@ -8,10 +8,12 @@ import { APP_INTERCEPTOR, APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { DatasetService } from './data/dataset.service.js';
 import { QueryService } from './data/query.service.js';
+import { PageViewsService } from './data/pageviews.service.js';
 import { ModelsController } from './controllers/models.controller.js';
 import { LabsController } from './controllers/labs.controller.js';
 import { CatalogController } from './controllers/catalog.controller.js';
 import { RefreshController } from './controllers/refresh.controller.js';
+import { SeoController } from './controllers/seo.controller.js';
 import { ResponseInterceptor } from './common/response.interceptor.js';
 import { AllExceptionsFilter } from './common/http-exception.filter.js';
 import { AdminModule } from './admin/admin.module.js';
@@ -22,10 +24,11 @@ import { AdminModule } from './admin/admin.module.js';
     ThrottlerModule.forRoot([{ ttl: 60_000, limit: 120 }]),
     AdminModule,
   ],
-  controllers: [ModelsController, LabsController, CatalogController, RefreshController],
+  controllers: [ModelsController, LabsController, CatalogController, RefreshController, SeoController],
   providers: [
     DatasetService,
     QueryService,
+    PageViewsService,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_INTERCEPTOR, useClass: ResponseInterceptor },
     { provide: APP_FILTER, useClass: AllExceptionsFilter },

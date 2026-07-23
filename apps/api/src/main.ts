@@ -51,7 +51,7 @@ async function bootstrap(): Promise<void> {
   if (existsSync(webDist)) {
     app.useStaticAssets(webDist);
     const httpAdapter = app.getHttpAdapter().getInstance() as ReturnType<typeof express>;
-    httpAdapter.get(/^\/(?!api|models|labs|providers|benchmarks|pricing|stats|metadata|filters|search|status|refresh|admin).*/, (_req, res) => {
+    httpAdapter.get(/^\/(?!api|models|labs|providers|benchmarks|pricing|stats|metadata|filters|search|status|refresh|admin|robots\.txt|sitemap\.xml|rss\.xml|pageview).*/, (_req, res) => {
       res.sendFile(join(webDist, 'index.html'));
     });
     logger.log(`Serving SPA from ${webDist}`);

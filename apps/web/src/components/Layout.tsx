@@ -4,10 +4,11 @@
  * 应用外壳——顶部导航、主题+语言切换、API Docs 入口，页脚含访问计数。
  * 移动端：导航折叠为抽屉。
  */
-import { useState, type ReactNode } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { useT, useLang } from '../i18n/index.js';
 import { ThemeSwitcher, LangSwitcher } from './Switchers.js';
+import { CommandPalette } from './CommandPalette.js';
 
 const API_DOCS_URL = (import.meta.env.VITE_API_BASE ?? '') + '/api/docs';
 
@@ -73,14 +74,27 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6">{children}</main>
 
       <Footer />
+      <CommandPalette />
     </div>
   );
 }
 
 function Footer() {
+  const [views, setViews] = useState<number | null>(null);
+  useEffect(() => {
+    // Record one page view on mount, show the running total (11) / 挂载时记一次访问并显示总数
+    const base = import.meta.env.VITE_API_BASE ?? '';
+    fetch(`${base}/pageview`, { method: 'POST' })
+      .then(r => r.json())
+      .then(d => setViews(d?.data?.total ?? null))
+      .catch(() => {});
+  }, []);
   return (
     <footer className="border-t border-border py-6 text-center text-xs text-muted">
-      <p>models.dev Explorer · Data from models.dev</p>
+      <p>
+        models.dev Explorer · Data from models.dev
+        {views !== null && <span> · {views.toLocaleString()} views</span>}
+      </p>
     </footer>
   );
 }

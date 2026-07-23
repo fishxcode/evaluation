@@ -22,9 +22,13 @@ function isListPayload(p: unknown): p is ListPayload {
 
 @Injectable()
 export class ResponseInterceptor implements NestInterceptor {
-  intercept(_ctx: ExecutionContext, next: CallHandler): Observable<ApiResponse<unknown>> {
+  intercept(_ctx: ExecutionContext, next: CallHandler): Observable<ApiResponse<unknown> | string> {
     return next.handle().pipe(
-      map((payload): ApiResponse<unknown> => {
+      map((payload): ApiResponse<unknown> | string => {
+        // Raw string payloads (robots.txt/sitemap.xml/rss.xml) pass through
+        // unwrapped so their text/xml Content-Type stays valid.
+        // 原始字符串载荷（robots/sitemap/rss）原样透传，保持 text/xml Content-Type 有效。
+        if (typeof payload === 'string') return payload;
         if (isListPayload(payload)) {
           return { data: payload.data, meta: payload.meta };
         }
