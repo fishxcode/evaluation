@@ -7,14 +7,18 @@
 import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import helmet from 'helmet';
 import compression from 'compression';
+import express from 'express';
+import { existsSync } from 'fs';
+import { join, resolve } from 'path';
 import { AppModule } from './app.module.js';
 
 async function bootstrap(): Promise<void> {
   const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   // Security (8.3): Helmet headers, permissive CORS for the SPA, gzip/brotli.
   // 安全：Helmet 头、面向 SPA 的 CORS、gzip 压缩。
@@ -39,6 +43,19 @@ async function bootstrap(): Promise<void> {
   SwaggerModule.setup('api/docs', app, document, {
     swaggerOptions: { persistAuthorization: true },
   });
+
+  // Serve the built SPA + SPA fallback so one container serves API + frontend
+  // (13.3 single container). Static assets first; unknown non-API paths → index.html.
+  // 单容器同时服务 API 与前端：先静态资源，未知非 API 路径回退 index.html。
+  const webDist = resolve(process.cwd(), 'apps/web/dist');
+  if (existsSync(webDist)) {
+    app.useStaticAssets(webDist);
+    const httpAdapter = app.getHttpAdapter().getInstance() as ReturnType<typeof express>;
+    httpAdapter.get(/^\/(?!api|models|labs|providers|benchmarks|pricing|stats|metadata|filters|search|status|refresh|admin).*/, (_req, res) => {
+      res.sendFile(join(webDist, 'index.html'));
+    });
+    logger.log(`Serving SPA from ${webDist}`);
+  }
 
   const port = Number(process.env.PORT ?? 3000);
   await app.listen(port);

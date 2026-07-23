@@ -1,0 +1,31 @@
+# Single-environment deployment (13.3). Data dir mounted as a volume so the
+# merged snapshot + refreshes persist across restarts. Container-internal cron
+# for scheduled refresh is driven by REFRESH_CRON (read by the app).
+# 单环境部署。data 目录挂 volume 使 merged 快照+刷新在重启后持久化。
+# 容器内定时刷新由 REFRESH_CRON 驱动。
+
+services:
+  api:
+    build: .
+    image: models-dev-explorer:latest
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      NODE_ENV: production
+      DATA_DIR: /app/data
+      REFRESH_TOKEN: ${REFRESH_TOKEN:?set REFRESH_TOKEN in .env}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:?set ADMIN_USERNAME in .env}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:?set ADMIN_PASSWORD_HASH in .env}
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-8h}
+      REFRESH_CRON: ${REFRESH_CRON:-}
+    volumes:
+      # Persist data across restarts (merged snapshots, versions, overrides)
+      # 跨重启持久化数据（merged 快照、版本、覆盖）
+      - models-data:/app/data
+    restart: unless-stopped
+    # HEALTHCHECK is defined in the Dockerfile (hits GET /status)
+
+volumes:
+  models-data:

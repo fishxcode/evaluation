@@ -17,6 +17,9 @@ data/overrides.json
 data/raw/*.snapshot.json
 !data/raw/.gitkeep
 
+# Stray nested data dirs (if pipeline runs without absolute DATA_DIR)
+packages/*/data/
+
 # Environment
 .env
 .env.local
