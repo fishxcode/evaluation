@@ -8,9 +8,13 @@ build/
 .next/
 out/
 
-# Data (raw snapshots tracked; merged excluded from git)
+# Data (raw snapshots tracked; merged + runtime state excluded from git)
 data/merged/
 data/versions/
+data/audit-log.json
+data/pipeline-runs.json
+data/overrides.json
+data/raw/*.snapshot.json
 !data/raw/.gitkeep
 
 # Environment
