@@ -1,0 +1,37 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Data (raw snapshots tracked; merged excluded from git)
+data/merged/
+data/versions/
+!data/raw/.gitkeep
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/settings.json
+.idea/
+*.DS_Store
+
+# Test coverage
+coverage/
+
+# Vercel
+.vercel/
+
+# TypeScript build info
+*.tsbuildinfo

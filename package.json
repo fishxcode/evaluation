@@ -1,0 +1,37 @@
+{
+  "name": "models-dev-explorer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Enterprise AI model directory platform — models.dev explorer",
+  "scripts": {
+    "dev": "pnpm --filter @models-dev/api dev & pnpm --filter @models-dev/web dev",
+    "build": "pnpm --filter @models-dev/shared build && pnpm --filter @models-dev/data build && pnpm --filter @models-dev/api build && pnpm --filter @models-dev/web build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
+    "data:refresh": "pnpm --filter @models-dev/data pipeline",
+    "data:refresh:full": "pnpm --filter @models-dev/data pipeline:full",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md}": ["prettier --write"]
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}
