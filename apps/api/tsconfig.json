@@ -3,14 +3,16 @@
   "compilerOptions": {
     "outDir": "./dist",
     "noEmit": false,
-    "declaration": true,
+    "declaration": false,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "types": ["node"],
-    "exactOptionalPropertyTypes": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "useDefineForClassFields": false,
     "rootDir": "./src",
     "paths": {}
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "test/**"]
 }
