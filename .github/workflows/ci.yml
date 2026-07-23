@@ -48,6 +48,12 @@ jobs:
 
       - name: Generate data snapshot for e2e
         run: pnpm --filter @models-dev/data pipeline:full
+        env:
+          # Write snapshot to repo-root data/ (pipeline cwd is packages/data, so
+          # its default ./data would land in the wrong place). Must match the
+          # e2e DATA_DIR below.
+          # 将快照写到仓库根 data/（管线 cwd 是 packages/data，默认 ./data 会写错位置）。
+          DATA_DIR: ${{ github.workspace }}/data
 
       - name: API e2e tests
         run: pnpm --filter @models-dev/api test:e2e
