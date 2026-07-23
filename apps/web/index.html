@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>models.dev Explorer</title>
+    <meta name="description" content="Enterprise AI model directory — explore, compare, and price AI models." />
+    <!--
+      FOUC prevention (10.1): apply the dark class BEFORE first paint by reading
+      the persisted theme (or system preference) synchronously.
+      FOUC 预防：首绘前同步读取持久化主题（或系统偏好）并应用 dark class。
+    -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('theme');
+          var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
