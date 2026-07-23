@@ -25,13 +25,38 @@ export class DatasetService implements OnModuleInit {
   private readonly startedAt = Date.now();
 
   constructor() {
-    this.dataDir = process.env.DATA_DIR ? process.env.DATA_DIR : join(process.cwd(), 'data');
+    this.dataDir = DatasetService.resolveDataDir();
     this.mergedDir = join(this.dataDir, 'merged');
+  }
+
+  /**
+   * Resolve the data dir robustly. On Vercel the function cwd differs from the
+   * repo root, so we probe several candidate locations for merged/models.json.
+   * 稳健解析 data 目录。Vercel 上函数 cwd 与仓库根不同，故探测多个候选位置。
+   */
+  private static resolveDataDir(): string {
+    if (process.env.DATA_DIR) return process.env.DATA_DIR;
+    const candidates = [
+      join(process.cwd(), 'data'),
+      join(process.cwd(), '../data'),
+      join(process.cwd(), '../../data'),
+      '/var/task/data',
+    ];
+    for (const c of candidates) {
+      if (existsSync(join(c, 'merged', 'models.json'))) return c;
+    }
+    // Fallback to cwd/data (load() will warn if missing) / 回退
+    return join(process.cwd(), 'data');
   }
 
   onModuleInit(): void {
     this.load();
-    this.startWatching();
+    // Skip fs.watch on serverless (read-only FS, no persistent process).
+    // Vercel sets VERCEL=1; also allow explicit DISABLE_WATCH.
+    // serverless 上跳过 fs.watch（只读 FS、无常驻进程）。
+    if (!process.env.VERCEL && process.env.DISABLE_WATCH !== '1') {
+      this.startWatching();
+    }
   }
 
   /** Load merged dataset from disk into memory / 从磁盘载入 merged 数据到内存 */

@@ -6,7 +6,7 @@
   "outputDirectory": "apps/web/dist",
   "functions": {
     "api/index.ts": {
-      "includeFiles": "{data/merged/**,apps/api/dist/**,packages/shared/dist/**,packages/data/dist/**}",
+      "includeFiles": "data/merged/**",
       "maxDuration": 30
     }
   },

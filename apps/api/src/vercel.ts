@@ -56,6 +56,21 @@ async function bootstrap(): Promise<Express> {
 
 /** Vercel serverless handler / Vercel serverless 处理器 */
 export default async function handler(req: Request, res: Response): Promise<void> {
-  const server = await bootstrap();
-  server(req, res);
+  try {
+    const server = await bootstrap();
+    server(req, res);
+  } catch (err) {
+    // Surface the real cold-start error instead of an opaque
+    // FUNCTION_INVOCATION_FAILED, so it can be diagnosed from the response.
+    // 暴露真实冷启动错误而非不透明的 FUNCTION_INVOCATION_FAILED，便于诊断。
+    const e = err as Error;
+    // eslint-disable-next-line no-console
+    console.error('BOOTSTRAP_FAILED', e?.stack ?? e?.message ?? String(err));
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({
+      data: null,
+      error: { code: 'BOOTSTRAP_FAILED', message: e?.message ?? String(err), stack: (e?.stack ?? '').split('\n').slice(0, 6) },
+    }));
+  }
 }
